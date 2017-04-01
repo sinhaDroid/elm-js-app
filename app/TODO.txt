@@ -1,4 +1,1 @@
-- init: ask for time
-- model: provide place to store time
-- update: store time in model
-- view: show time
+- update time every second
