@@ -1,9 +1,4 @@
-- create a type alias named Model, alias it to Int
-- create a function model, which needs no parameters and returns Model, the
-  initial state of program, in this case the number zero.
-- create a type Msg, with a single constructor NoOp
-- create a update function that takes Msg and Model, and returns Model, return
-  the passed model unmodified.
-- create a view that takes Model, and returns Html Msg, return hello world text
-  from it.
-- update main to call Html.beginnerProgram, pass it a record containing model,
+- explose text, div, h1 etc from Html when importing
+- create a div that shows the current count stored in model
+- create a button that when clicked should increase the counter
+- create a buton that when clicked would reset the count to zero
