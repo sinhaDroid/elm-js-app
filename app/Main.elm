@@ -2,48 +2,95 @@ module Main exposing (..)
 
 import Html exposing (text, div, h1, h2, input)
 import Html.Attributes exposing (type_, value)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onInput)
 
 
-type alias Model =
-    Int
+type Model
+    = Anonymous String
+    | LoggedIn String Int
 
 
-type Msg
+type AnonymousMsg
+    = Login String
+    | NameChanged String
+
+
+type LoggedInMsg
     = Increment
     | Reset
     | SetCount Int
+    | Logout
+
+
+type Msg
+    = AMessage AnonymousMsg
+    | LMessage LoggedInMsg
 
 
 model =
-    0
+    Anonymous ""
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Increment ->
-            model + 1
+        AMessage (Login "") ->
+            Anonymous ""
 
-        Reset ->
-            0
+        AMessage (Login name) ->
+            LoggedIn name 0
 
-        SetCount i ->
-            i
+        AMessage (NameChanged name) ->
+            Anonymous name
+
+        LMessage msg ->
+            case model of
+                LoggedIn name count ->
+                    case msg of
+                        Increment ->
+                            LoggedIn name (count + 1)
+
+                        Reset ->
+                            LoggedIn name 0
+
+                        SetCount i ->
+                            LoggedIn name i
+
+                        Logout ->
+                            Anonymous ""
+
+                Anonymous _ ->
+                    Debug.crash "impossible"
 
 
 view : Model -> Html.Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Counter" ]
-        , text ("Current count: " ++ (toString model))
-        , div []
-            [ h2 [] [ text "Actions" ]
-            , input [ type_ "button", value "Increment", onClick Increment ] []
-            , input [ type_ "button", value "Reset", onClick Reset ] []
-            , input [ type_ "button", value "== 42", onClick (SetCount 42) ] []
-            ]
-        ]
+    case model of
+        Anonymous name ->
+            div []
+                [ h1 []
+                    [ text "Log In" ]
+                , div []
+                    [ input [ type_ "text", value name, onInput (NameChanged >> AMessage) ] []
+                    , input [ type_ "button", value "Login", onClick (AMessage (Login name)) ] []
+                    ]
+                ]
+
+        LoggedIn name count ->
+            div []
+                [ h1 [] [ text "Counter" ]
+                , div []
+                    [ h2 [] [ text ("Hello " ++ name) ]
+                    , input [ type_ "button", value "Logout", onClick (LMessage Logout) ] []
+                    ]
+                , h2 [] [ text ("Current count: " ++ (toString count)) ]
+                , div []
+                    [ h2 [] [ text "Actions" ]
+                    , input [ type_ "button", value "Increment", onClick (LMessage Increment) ] []
+                    , input [ type_ "button", value "Reset", onClick (LMessage Reset) ] []
+                    , input [ type_ "button", value "== 42", onClick (LMessage (SetCount 42)) ] []
+                    ]
+                ]
 
 
 main : Program Never Model Msg

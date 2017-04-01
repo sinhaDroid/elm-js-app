@@ -8260,45 +8260,155 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Main$LoggedIn = F2(
+	function (a, b) {
+		return {ctor: 'LoggedIn', _0: a, _1: b};
+	});
+var _user$project$Main$Anonymous = function (a) {
+	return {ctor: 'Anonymous', _0: a};
+};
+var _user$project$Main$model = _user$project$Main$Anonymous('');
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'Increment':
-				return model + 1;
-			case 'Reset':
-				return 0;
-			default:
-				return _p0._0;
+		if (_p0.ctor === 'AMessage') {
+			if (_p0._0.ctor === 'Login') {
+				if (_p0._0._0 === '') {
+					return _user$project$Main$Anonymous('');
+				} else {
+					return A2(_user$project$Main$LoggedIn, _p0._0._0, 0);
+				}
+			} else {
+				return _user$project$Main$Anonymous(_p0._0._0);
+			}
+		} else {
+			var _p1 = model;
+			if (_p1.ctor === 'LoggedIn') {
+				var _p3 = _p1._0;
+				var _p2 = _p0._0;
+				switch (_p2.ctor) {
+					case 'Increment':
+						return A2(_user$project$Main$LoggedIn, _p3, _p1._1 + 1);
+					case 'Reset':
+						return A2(_user$project$Main$LoggedIn, _p3, 0);
+					case 'SetCount':
+						return A2(_user$project$Main$LoggedIn, _p3, _p2._0);
+					default:
+						return _user$project$Main$Anonymous('');
+				}
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Main',
+					{
+						start: {line: 47, column: 13},
+						end: {line: 63, column: 45}
+					},
+					_p1)('impossible');
+			}
 		}
 	});
-var _user$project$Main$model = 0;
+var _user$project$Main$NameChanged = function (a) {
+	return {ctor: 'NameChanged', _0: a};
+};
+var _user$project$Main$Login = function (a) {
+	return {ctor: 'Login', _0: a};
+};
+var _user$project$Main$Logout = {ctor: 'Logout'};
 var _user$project$Main$SetCount = function (a) {
 	return {ctor: 'SetCount', _0: a};
 };
 var _user$project$Main$Reset = {ctor: 'Reset'};
 var _user$project$Main$Increment = {ctor: 'Increment'};
+var _user$project$Main$LMessage = function (a) {
+	return {ctor: 'LMessage', _0: a};
+};
+var _user$project$Main$AMessage = function (a) {
+	return {ctor: 'AMessage', _0: a};
+};
 var _user$project$Main$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Counter'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
+	var _p5 = model;
+	if (_p5.ctor === 'Anonymous') {
+		var _p7 = _p5._0;
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						'Current count: ',
-						_elm_lang$core$Basics$toString(model))),
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Log In'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(_p7),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(
+												function (_p6) {
+													return _user$project$Main$AMessage(
+														_user$project$Main$NameChanged(_p6));
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$input,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_('button'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value('Login'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Main$AMessage(
+														_user$project$Main$Login(_p7))),
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$h1,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Counter'),
+						_1: {ctor: '[]'}
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
@@ -8311,7 +8421,8 @@ var _user$project$Main$view = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Actions'),
+									_0: _elm_lang$html$Html$text(
+										A2(_elm_lang$core$Basics_ops['++'], 'Hello ', _p5._0)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -8323,33 +8434,48 @@ var _user$project$Main$view = function (model) {
 										_0: _elm_lang$html$Html_Attributes$type_('button'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value('Increment'),
+											_0: _elm_lang$html$Html_Attributes$value('Logout'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Increment),
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Main$LMessage(_user$project$Main$Logout)),
 												_1: {ctor: '[]'}
 											}
 										}
 									},
 									{ctor: '[]'}),
-								_1: {
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h2,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'Current count: ',
+										_elm_lang$core$Basics$toString(_p5._1))),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$input,
+										_elm_lang$html$Html$h2,
+										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$type_('button'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value('Reset'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$Reset),
-													_1: {ctor: '[]'}
-												}
-											}
-										},
-										{ctor: '[]'}),
+											_0: _elm_lang$html$Html$text('Actions'),
+											_1: {ctor: '[]'}
+										}),
 									_1: {
 										ctor: '::',
 										_0: A2(
@@ -8359,25 +8485,66 @@ var _user$project$Main$view = function (model) {
 												_0: _elm_lang$html$Html_Attributes$type_('button'),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value('== 42'),
+													_0: _elm_lang$html$Html_Attributes$value('Increment'),
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(
-															_user$project$Main$SetCount(42)),
+															_user$project$Main$LMessage(_user$project$Main$Increment)),
 														_1: {ctor: '[]'}
 													}
 												}
 											},
 											{ctor: '[]'}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('button'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value('Reset'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Main$LMessage(_user$project$Main$Reset)),
+															_1: {ctor: '[]'}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$input,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$type_('button'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$value('== 42'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	_user$project$Main$LMessage(
+																		_user$project$Main$SetCount(42))),
+																_1: {ctor: '[]'}
+															}
+														}
+													},
+													{ctor: '[]'}),
+												_1: {ctor: '[]'}
+											}
+										}
 									}
-								}
-							}
-						}),
-					_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
 				}
-			}
-		});
+			});
+	}
 };
 var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _user$project$Main$model, view: _user$project$Main$view, update: _user$project$Main$update})();
