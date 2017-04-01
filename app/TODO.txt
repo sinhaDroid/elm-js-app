@@ -1,5 +1,4 @@
-- update the model to keep track if user is logged in or not.
-- add login and logout events.
-- update view such that if user is logged in, they see the counter UI, else
-  they see a login screen. add logout button to counter.
-- implement the update function to make it work
+- change from Html.beginnerProgram to Html.program
+- create init
+- create subscription
+- change the signature of update
