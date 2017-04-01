@@ -1,4 +1,3 @@
-- explose text, div, h1 etc from Html when importing
-- create a div that shows the current count stored in model
-- create a button that when clicked should increase the counter
-- create a buton that when clicked would reset the count to zero
+- create type custructors of Msg: Increment and Reset
+- update html to send appropriate message when the button is clicked
+- create a third button which should set the count to 42
