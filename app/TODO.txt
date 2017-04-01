@@ -1,2 +1,1 @@
-- the data that is coming from JS side, parse it as JSON string, and show the
-  initial name and count based on it
+- encode data on every count/login, and send to JS
