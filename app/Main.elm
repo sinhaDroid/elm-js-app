@@ -27,37 +27,37 @@ type Msg
     | LMessage LoggedInMsg
 
 
-model =
-    Anonymous ""
+init =
+    ( Anonymous "", Cmd.none )
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         AMessage (Login "") ->
-            Anonymous ""
+            Anonymous "" ! []
 
         AMessage (Login name) ->
-            LoggedIn name 0
+            LoggedIn name 0 ! []
 
         AMessage (NameChanged name) ->
-            Anonymous name
+            Anonymous name ! []
 
         LMessage msg ->
             case model of
                 LoggedIn name count ->
                     case msg of
                         Increment ->
-                            LoggedIn name (count + 1)
+                            LoggedIn name (count + 1) ! []
 
                         Reset ->
-                            LoggedIn name 0
+                            LoggedIn name 0 ! []
 
                         SetCount i ->
-                            LoggedIn name i
+                            LoggedIn name i ! []
 
                         Logout ->
-                            Anonymous ""
+                            Anonymous "" ! []
 
                 Anonymous _ ->
                     Debug.crash "impossible"
@@ -93,10 +93,16 @@ view model =
                 ]
 
 
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram
-        { model = model
+    Html.program
+        { init = init
         , view = view
         , update = update
+        , subscriptions = subscriptions
         }

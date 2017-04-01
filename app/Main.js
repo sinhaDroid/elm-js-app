@@ -8260,6 +8260,9 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
 var _user$project$Main$LoggedIn = F2(
 	function (a, b) {
 		return {ctor: 'LoggedIn', _0: a, _1: b};
@@ -8267,19 +8270,32 @@ var _user$project$Main$LoggedIn = F2(
 var _user$project$Main$Anonymous = function (a) {
 	return {ctor: 'Anonymous', _0: a};
 };
-var _user$project$Main$model = _user$project$Main$Anonymous('');
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$Main$Anonymous(''),
+	_1: _elm_lang$core$Platform_Cmd$none
+};
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'AMessage') {
 			if (_p0._0.ctor === 'Login') {
 				if (_p0._0._0 === '') {
-					return _user$project$Main$Anonymous('');
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_user$project$Main$Anonymous(''),
+						{ctor: '[]'});
 				} else {
-					return A2(_user$project$Main$LoggedIn, _p0._0._0, 0);
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						A2(_user$project$Main$LoggedIn, _p0._0._0, 0),
+						{ctor: '[]'});
 				}
 			} else {
-				return _user$project$Main$Anonymous(_p0._0._0);
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_user$project$Main$Anonymous(_p0._0._0),
+					{ctor: '[]'});
 			}
 		} else {
 			var _p1 = model;
@@ -8288,13 +8304,25 @@ var _user$project$Main$update = F2(
 				var _p2 = _p0._0;
 				switch (_p2.ctor) {
 					case 'Increment':
-						return A2(_user$project$Main$LoggedIn, _p3, _p1._1 + 1);
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$LoggedIn, _p3, _p1._1 + 1),
+							{ctor: '[]'});
 					case 'Reset':
-						return A2(_user$project$Main$LoggedIn, _p3, 0);
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$LoggedIn, _p3, 0),
+							{ctor: '[]'});
 					case 'SetCount':
-						return A2(_user$project$Main$LoggedIn, _p3, _p2._0);
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$LoggedIn, _p3, _p2._0),
+							{ctor: '[]'});
 					default:
-						return _user$project$Main$Anonymous('');
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							_user$project$Main$Anonymous(''),
+							{ctor: '[]'});
 				}
 			} else {
 				return _elm_lang$core$Native_Utils.crashCase(
@@ -8546,8 +8574,8 @@ var _user$project$Main$view = function (model) {
 			});
 	}
 };
-var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
-	{model: _user$project$Main$model, view: _user$project$Main$view, update: _user$project$Main$update})();
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
