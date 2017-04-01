@@ -1,3 +1,2 @@
-- make the module a port module
-- send a message to javascript
-- get a message from javascript
+- the data that is coming from JS side, parse it as JSON string, and show the
+  initial name and count based on it
