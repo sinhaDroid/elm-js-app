@@ -8672,9 +8672,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
 var _user$project$Main$LoggedIn = F2(
 	function (a, b) {
 		return {ctor: 'LoggedIn', _0: a, _1: b};
@@ -9048,6 +9045,20 @@ var _user$project$Main$view = function (model) {
 					}
 				}
 			});
+	}
+};
+var _user$project$Main$subscriptions = function (model) {
+	var _p15 = model;
+	if (_p15.ctor === 'Anonymous') {
+		return A2(
+			_elm_lang$core$Time$every,
+			_elm_lang$core$Time$second,
+			function (_p16) {
+				return _user$project$Main$AMessage(
+					_user$project$Main$SetTime(_p16));
+			});
+	} else {
+		return _elm_lang$core$Platform_Sub$none;
 	}
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(

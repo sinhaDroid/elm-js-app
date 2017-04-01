@@ -112,7 +112,12 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    case model of
+        Anonymous _ _ ->
+            Time.every Time.second (SetTime >> AMessage)
+
+        _ ->
+            Sub.none
 
 
 main : Program Never Model Msg
