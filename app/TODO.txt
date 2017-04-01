@@ -1,3 +1,1 @@
-- create type custructors of Msg: Increment and Reset
-- update html to send appropriate message when the button is clicked
-- create a third button which should set the count to 42
+- implement the update function
