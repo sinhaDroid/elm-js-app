@@ -1,0 +1,7 @@
+- install elm globally: npm install -g elm
+- create a file Main.elm, with a function that returns text "hello world".
+  import text from Html module.
+- elm-make 01-hello/Main.elm --output 01-hello/Main.js
+- create an index.html that loads Main.js at the end of body.
+- Execute Elm.Main.fullscreen() in a script after that.
+- Open index.html in browser and ensure everything is working.
