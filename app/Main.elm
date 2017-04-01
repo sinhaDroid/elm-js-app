@@ -6,6 +6,7 @@ import Html.Events exposing (onClick, onInput)
 import Time exposing (Time)
 import Task
 import Json.Decode as JD
+import Json.Encode as JE
 
 
 port toJS : String -> Cmd a
@@ -47,6 +48,20 @@ init =
     ( Anonymous "" Nothing, Task.perform (SetTime >> AMessage) Time.now )
 
 
+setNameCount : String -> Int -> ( Model, Cmd Msg )
+setNameCount name count =
+    LoggedIn name count
+        ! [ toJS
+                (JE.encode 4
+                    (JE.object
+                        [ ( "name", JE.string name )
+                        , ( "count", JE.int count )
+                        ]
+                    )
+                )
+          ]
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -55,7 +70,7 @@ update msg model =
                 Anonymous name time ->
                     case msg of
                         Login name ->
-                            LoggedIn name 0 ! []
+                            setNameCount name 0
 
                         SetTime time ->
                             Anonymous name (Just time) ! []
@@ -79,13 +94,13 @@ update msg model =
                 LoggedIn name count ->
                     case msg of
                         Increment ->
-                            LoggedIn name (count + 1) ! []
+                            setNameCount name (count + 1)
 
                         Reset ->
-                            LoggedIn name 0 ! [ toJS "reset called" ]
+                            setNameCount name 0
 
                         SetCount i ->
-                            LoggedIn name i ! []
+                            setNameCount name i
 
                         Logout ->
                             Anonymous "" Nothing ! [ Task.perform (SetTime >> AMessage) Time.now ]

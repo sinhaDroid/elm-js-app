@@ -8687,6 +8687,38 @@ var _user$project$Main$decoder = A3(
 	_user$project$Main$LoggedIn,
 	A2(_elm_lang$core$Json_Decode$field, 'name', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'count', _elm_lang$core$Json_Decode$int));
+var _user$project$Main$setNameCount = F2(
+	function (name, count) {
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			A2(_user$project$Main$LoggedIn, name, count),
+			{
+				ctor: '::',
+				_0: _user$project$Main$toJS(
+					A2(
+						_elm_lang$core$Json_Encode$encode,
+						4,
+						_elm_lang$core$Json_Encode$object(
+							{
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'name',
+									_1: _elm_lang$core$Json_Encode$string(name)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'count',
+										_1: _elm_lang$core$Json_Encode$int(count)
+									},
+									_1: {ctor: '[]'}
+								}
+							}))),
+				_1: {ctor: '[]'}
+			});
+	});
 var _user$project$Main$Anonymous = F2(
 	function (a, b) {
 		return {ctor: 'Anonymous', _0: a, _1: b};
@@ -8736,10 +8768,7 @@ var _user$project$Main$update = F2(
 				var _p3 = _p1._0;
 				switch (_p3.ctor) {
 					case 'Login':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p3._0, 0),
-							{ctor: '[]'});
+						return A2(_user$project$Main$setNameCount, _p3._0, 0);
 					case 'SetTime':
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
@@ -8771,8 +8800,8 @@ var _user$project$Main$update = F2(
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 54, column: 13},
-						end: {line: 75, column: 45}
+						start: {line: 69, column: 13},
+						end: {line: 90, column: 45}
 					},
 					_p2)('impossible');
 			}
@@ -8783,24 +8812,11 @@ var _user$project$Main$update = F2(
 				var _p8 = _p1._0;
 				switch (_p8.ctor) {
 					case 'Increment':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p10, _p7._1 + 1),
-							{ctor: '[]'});
+						return A2(_user$project$Main$setNameCount, _p10, _p7._1 + 1);
 					case 'Reset':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p10, 0),
-							{
-								ctor: '::',
-								_0: _user$project$Main$toJS('reset called'),
-								_1: {ctor: '[]'}
-							});
+						return A2(_user$project$Main$setNameCount, _p10, 0);
 					case 'SetCount':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p10, _p8._0),
-							{ctor: '[]'});
+						return A2(_user$project$Main$setNameCount, _p10, _p8._0);
 					default:
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
@@ -8821,8 +8837,8 @@ var _user$project$Main$update = F2(
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 78, column: 13},
-						end: {line: 94, column: 45}
+						start: {line: 93, column: 13},
+						end: {line: 109, column: 45}
 					},
 					_p7)('impossible');
 			}
