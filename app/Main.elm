@@ -3,15 +3,18 @@ module Main exposing (..)
 import Html exposing (text, div, h1, h2, input)
 import Html.Attributes exposing (type_, value)
 import Html.Events exposing (onClick, onInput)
+import Time exposing (Time)
+import Task
 
 
 type Model
-    = Anonymous String
+    = Anonymous String (Maybe Time)
     | LoggedIn String Int
 
 
 type AnonymousMsg
     = Login String
+    | SetTime Time
     | NameChanged String
 
 
@@ -28,20 +31,27 @@ type Msg
 
 
 init =
-    ( Anonymous "", Cmd.none )
+    ( Anonymous "" Nothing, Task.perform (SetTime >> AMessage) Time.now )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AMessage (Login "") ->
-            Anonymous "" ! []
+        AMessage msg ->
+            case model of
+                Anonymous name time ->
+                    case msg of
+                        Login name ->
+                            LoggedIn name 0 ! []
 
-        AMessage (Login name) ->
-            LoggedIn name 0 ! []
+                        SetTime time ->
+                            Anonymous name (Just time) ! []
 
-        AMessage (NameChanged name) ->
-            Anonymous name ! []
+                        NameChanged name ->
+                            Anonymous name time ! []
+
+                LoggedIn _ _ ->
+                    Debug.crash "impossible"
 
         LMessage msg ->
             case model of
@@ -57,21 +67,28 @@ update msg model =
                             LoggedIn name i ! []
 
                         Logout ->
-                            Anonymous "" ! []
+                            Anonymous "" Nothing ! [ Task.perform (SetTime >> AMessage) Time.now ]
 
-                Anonymous _ ->
+                Anonymous _ _ ->
                     Debug.crash "impossible"
 
 
 view : Model -> Html.Html Msg
 view model =
     case model of
-        Anonymous name ->
+        Anonymous name time ->
             div []
                 [ h1 []
                     [ text "Log In" ]
                 , div []
-                    [ input [ type_ "text", value name, onInput (NameChanged >> AMessage) ] []
+                    [ (case time of
+                        Just s ->
+                            div [] [ text ("Current time: " ++ (toString time)) ]
+
+                        Nothing ->
+                            div [] [ text "Current time: Loading" ]
+                      )
+                    , input [ type_ "text", value name, onInput (NameChanged >> AMessage) ] []
                     , input [ type_ "button", value "Login", onClick (AMessage (Login name)) ] []
                     ]
                 ]
