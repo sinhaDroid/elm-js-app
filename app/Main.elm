@@ -5,6 +5,7 @@ import Html.Attributes exposing (type_, value)
 import Html.Events exposing (onClick, onInput)
 import Time exposing (Time)
 import Task
+import Json.Decode as JD
 
 
 port toJS : String -> Cmd a
@@ -16,6 +17,11 @@ port fromJS : (String -> msg) -> Sub msg
 type Model
     = Anonymous String (Maybe Time)
     | LoggedIn String Int
+
+
+decoder : JD.Decoder Model
+decoder =
+    JD.map2 LoggedIn (JD.field "name" JD.string) (JD.field "count" JD.int)
 
 
 type AnonymousMsg
@@ -57,8 +63,13 @@ update msg model =
                         NameChanged name ->
                             Anonymous name time ! []
 
-                        FromJS name ->
-                            Anonymous name time ! []
+                        FromJS data ->
+                            case JD.decodeString decoder data of
+                                Ok m ->
+                                    m ! []
+
+                                Err msg ->
+                                    Anonymous msg time ! []
 
                 LoggedIn _ _ ->
                     Debug.crash "impossible"
