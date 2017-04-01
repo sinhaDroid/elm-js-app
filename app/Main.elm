@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Html exposing (text, div, h1, h2, input)
 import Html.Attributes exposing (type_, value)
+import Html.Events exposing (onClick)
 
 
 type alias Model =
@@ -9,7 +10,9 @@ type alias Model =
 
 
 type Msg
-    = NoOp
+    = Increment
+    | Reset
+    | SetCount Int
 
 
 model =
@@ -28,8 +31,9 @@ view model =
         , text ("Current count: " ++ (toString model))
         , div []
             [ h2 [] [ text "Actions" ]
-            , input [ type_ "button", value "Increment" ] []
-            , input [ type_ "button", value "Reset" ] []
+            , input [ type_ "button", value "Increment", onClick Increment ] []
+            , input [ type_ "button", value "Reset", onClick Reset ] []
+            , input [ type_ "button", value "== 42", onClick (SetCount 42) ] []
             ]
         ]
 
