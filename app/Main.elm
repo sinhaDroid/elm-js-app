@@ -1,6 +1,7 @@
 module Main exposing (..)
 
-import Html
+import Html exposing (text, div, h1, h2, input)
+import Html.Attributes exposing (type_, value)
 
 
 type alias Model =
@@ -22,7 +23,15 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
-    Html.text "hello world"
+    div []
+        [ h1 [] [ text "Counter" ]
+        , text ("Current count: " ++ (toString model))
+        , div []
+            [ h2 [] [ text "Actions" ]
+            , input [ type_ "button", value "Increment" ] []
+            , input [ type_ "button", value "Reset" ] []
+            ]
+        ]
 
 
 main : Program Never Model Msg
