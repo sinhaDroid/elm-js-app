@@ -1,1 +1,1 @@
-- encode data on every count/login, and send to JS
+- write values in local store instead of hardcoding in js
