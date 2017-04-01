@@ -1,4 +1,4 @@
-- change from Html.beginnerProgram to Html.program
-- create init
-- create subscription
-- change the signature of update
+- init: ask for time
+- model: provide place to store time
+- update: store time in model
+- view: show time
