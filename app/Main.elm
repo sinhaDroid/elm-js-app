@@ -3,13 +3,32 @@ module Main exposing (..)
 import Html
 
 
--- TODO: create type alias Model
--- TODO: create model
--- TODO: create type Msg with single constructor NoOp
--- TODO: create update function that takes msg and model, and returns model
--- TODO: create view
+type alias Model =
+    Int
 
 
-main =
-    -- update main to use Html.beginnerProgram
+type Msg
+    = NoOp
+
+
+model =
+    0
+
+
+update : Msg -> Model -> Model
+update msg model =
+    model
+
+
+view : Model -> Html.Html Msg
+view model =
     Html.text "hello world"
+
+
+main : Program Never Model Msg
+main =
+    Html.beginnerProgram
+        { model = model
+        , view = view
+        , update = update
+        }
