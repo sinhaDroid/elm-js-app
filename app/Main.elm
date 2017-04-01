@@ -87,7 +87,7 @@ update msg model =
                                     Anonymous msg time ! []
 
                 LoggedIn _ _ ->
-                    Debug.crash "impossible"
+                    model ! []
 
         LMessage msg ->
             case model of
@@ -103,7 +103,7 @@ update msg model =
                             setNameCount name i
 
                         Logout ->
-                            Anonymous "" Nothing ! [ Task.perform (SetTime >> AMessage) Time.now ]
+                            Anonymous "" Nothing ! [ toJS "" ]
 
                 Anonymous _ _ ->
                     Debug.crash "impossible"

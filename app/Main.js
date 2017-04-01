@@ -8723,6 +8723,83 @@ var _user$project$Main$Anonymous = F2(
 	function (a, b) {
 		return {ctor: 'Anonymous', _0: a, _1: b};
 	});
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		if (_p0.ctor === 'AMessage') {
+			var _p1 = model;
+			if (_p1.ctor === 'Anonymous') {
+				var _p4 = _p1._1;
+				var _p2 = _p0._0;
+				switch (_p2.ctor) {
+					case 'Login':
+						return A2(_user$project$Main$setNameCount, _p2._0, 0);
+					case 'SetTime':
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(
+								_user$project$Main$Anonymous,
+								_p1._0,
+								_elm_lang$core$Maybe$Just(_p2._0)),
+							{ctor: '[]'});
+					case 'NameChanged':
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$Anonymous, _p2._0, _p4),
+							{ctor: '[]'});
+					default:
+						var _p3 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Main$decoder, _p2._0);
+						if (_p3.ctor === 'Ok') {
+							return A2(
+								_elm_lang$core$Platform_Cmd_ops['!'],
+								_p3._0,
+								{ctor: '[]'});
+						} else {
+							return A2(
+								_elm_lang$core$Platform_Cmd_ops['!'],
+								A2(_user$project$Main$Anonymous, _p3._0, _p4),
+								{ctor: '[]'});
+						}
+				}
+			} else {
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+			}
+		} else {
+			var _p5 = model;
+			if (_p5.ctor === 'LoggedIn') {
+				var _p7 = _p5._0;
+				var _p6 = _p0._0;
+				switch (_p6.ctor) {
+					case 'Increment':
+						return A2(_user$project$Main$setNameCount, _p7, _p5._1 + 1);
+					case 'Reset':
+						return A2(_user$project$Main$setNameCount, _p7, 0);
+					case 'SetCount':
+						return A2(_user$project$Main$setNameCount, _p7, _p6._0);
+					default:
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$Anonymous, '', _elm_lang$core$Maybe$Nothing),
+							{
+								ctor: '::',
+								_0: _user$project$Main$toJS(''),
+								_1: {ctor: '[]'}
+							});
+				}
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Main',
+					{
+						start: {line: 93, column: 13},
+						end: {line: 109, column: 45}
+					},
+					_p5)('impossible');
+			}
+		}
+	});
 var _user$project$Main$FromJS = function (a) {
 	return {ctor: 'FromJS', _0: a};
 };
@@ -8752,103 +8829,17 @@ var _user$project$Main$init = {
 	_0: A2(_user$project$Main$Anonymous, '', _elm_lang$core$Maybe$Nothing),
 	_1: A2(
 		_elm_lang$core$Task$perform,
-		function (_p0) {
+		function (_p9) {
 			return _user$project$Main$AMessage(
-				_user$project$Main$SetTime(_p0));
+				_user$project$Main$SetTime(_p9));
 		},
 		_elm_lang$core$Time$now)
 };
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p1 = msg;
-		if (_p1.ctor === 'AMessage') {
-			var _p2 = model;
-			if (_p2.ctor === 'Anonymous') {
-				var _p5 = _p2._1;
-				var _p3 = _p1._0;
-				switch (_p3.ctor) {
-					case 'Login':
-						return A2(_user$project$Main$setNameCount, _p3._0, 0);
-					case 'SetTime':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(
-								_user$project$Main$Anonymous,
-								_p2._0,
-								_elm_lang$core$Maybe$Just(_p3._0)),
-							{ctor: '[]'});
-					case 'NameChanged':
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$Anonymous, _p3._0, _p5),
-							{ctor: '[]'});
-					default:
-						var _p4 = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Main$decoder, _p3._0);
-						if (_p4.ctor === 'Ok') {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								_p4._0,
-								{ctor: '[]'});
-						} else {
-							return A2(
-								_elm_lang$core$Platform_Cmd_ops['!'],
-								A2(_user$project$Main$Anonymous, _p4._0, _p5),
-								{ctor: '[]'});
-						}
-				}
-			} else {
-				return _elm_lang$core$Native_Utils.crashCase(
-					'Main',
-					{
-						start: {line: 69, column: 13},
-						end: {line: 90, column: 45}
-					},
-					_p2)('impossible');
-			}
-		} else {
-			var _p7 = model;
-			if (_p7.ctor === 'LoggedIn') {
-				var _p10 = _p7._0;
-				var _p8 = _p1._0;
-				switch (_p8.ctor) {
-					case 'Increment':
-						return A2(_user$project$Main$setNameCount, _p10, _p7._1 + 1);
-					case 'Reset':
-						return A2(_user$project$Main$setNameCount, _p10, 0);
-					case 'SetCount':
-						return A2(_user$project$Main$setNameCount, _p10, _p8._0);
-					default:
-						return A2(
-							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$Anonymous, '', _elm_lang$core$Maybe$Nothing),
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$core$Task$perform,
-									function (_p9) {
-										return _user$project$Main$AMessage(
-											_user$project$Main$SetTime(_p9));
-									},
-									_elm_lang$core$Time$now),
-								_1: {ctor: '[]'}
-							});
-				}
-			} else {
-				return _elm_lang$core$Native_Utils.crashCase(
-					'Main',
-					{
-						start: {line: 93, column: 13},
-						end: {line: 109, column: 45}
-					},
-					_p7)('impossible');
-			}
-		}
-	});
 var _user$project$Main$view = function (model) {
-	var _p12 = model;
-	if (_p12.ctor === 'Anonymous') {
-		var _p16 = _p12._1;
-		var _p15 = _p12._0;
+	var _p10 = model;
+	if (_p10.ctor === 'Anonymous') {
+		var _p14 = _p10._1;
+		var _p13 = _p10._0;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -8870,8 +8861,8 @@ var _user$project$Main$view = function (model) {
 						{
 							ctor: '::',
 							_0: function () {
-								var _p13 = _p16;
-								if (_p13.ctor === 'Just') {
+								var _p11 = _p14;
+								if (_p11.ctor === 'Just') {
 									return A2(
 										_elm_lang$html$Html$div,
 										{ctor: '[]'},
@@ -8881,7 +8872,7 @@ var _user$project$Main$view = function (model) {
 												A2(
 													_elm_lang$core$Basics_ops['++'],
 													'Current time: ',
-													_elm_lang$core$Basics$toString(_p16))),
+													_elm_lang$core$Basics$toString(_p14))),
 											_1: {ctor: '[]'}
 										});
 								} else {
@@ -8904,13 +8895,13 @@ var _user$project$Main$view = function (model) {
 										_0: _elm_lang$html$Html_Attributes$type_('text'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(_p15),
+											_0: _elm_lang$html$Html_Attributes$value(_p13),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onInput(
-													function (_p14) {
+													function (_p12) {
 														return _user$project$Main$AMessage(
-															_user$project$Main$NameChanged(_p14));
+															_user$project$Main$NameChanged(_p12));
 													}),
 												_1: {ctor: '[]'}
 											}
@@ -8931,7 +8922,7 @@ var _user$project$Main$view = function (model) {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Events$onClick(
 														_user$project$Main$AMessage(
-															_user$project$Main$Login(_p15))),
+															_user$project$Main$Login(_p13))),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -8971,7 +8962,7 @@ var _user$project$Main$view = function (model) {
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										A2(_elm_lang$core$Basics_ops['++'], 'Hello ', _p12._0)),
+										A2(_elm_lang$core$Basics_ops['++'], 'Hello ', _p10._0)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -9007,7 +8998,7 @@ var _user$project$Main$view = function (model) {
 									A2(
 										_elm_lang$core$Basics_ops['++'],
 										'Current count: ',
-										_elm_lang$core$Basics$toString(_p12._1))),
+										_elm_lang$core$Basics$toString(_p10._1))),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -9096,24 +9087,24 @@ var _user$project$Main$view = function (model) {
 	}
 };
 var _user$project$Main$subscriptions = function (model) {
-	var _p17 = model;
-	if (_p17.ctor === 'Anonymous') {
+	var _p15 = model;
+	if (_p15.ctor === 'Anonymous') {
 		return _elm_lang$core$Platform_Sub$batch(
 			{
 				ctor: '::',
 				_0: A2(
 					_elm_lang$core$Time$every,
 					_elm_lang$core$Time$second,
-					function (_p18) {
+					function (_p16) {
 						return _user$project$Main$AMessage(
-							_user$project$Main$SetTime(_p18));
+							_user$project$Main$SetTime(_p16));
 					}),
 				_1: {
 					ctor: '::',
 					_0: _user$project$Main$fromJS(
-						function (_p19) {
+						function (_p17) {
 							return _user$project$Main$AMessage(
-								_user$project$Main$FromJS(_p19));
+								_user$project$Main$FromJS(_p17));
 						}),
 					_1: {ctor: '[]'}
 				}
