@@ -1,10 +1,16 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Html exposing (text, div, h1, h2, input)
 import Html.Attributes exposing (type_, value)
 import Html.Events exposing (onClick, onInput)
 import Time exposing (Time)
 import Task
+
+
+port toJS : String -> Cmd a
+
+
+port fromJS : (String -> msg) -> Sub msg
 
 
 type Model
@@ -16,6 +22,7 @@ type AnonymousMsg
     = Login String
     | SetTime Time
     | NameChanged String
+    | FromJS String
 
 
 type LoggedInMsg
@@ -50,6 +57,9 @@ update msg model =
                         NameChanged name ->
                             Anonymous name time ! []
 
+                        FromJS name ->
+                            Anonymous name time ! []
+
                 LoggedIn _ _ ->
                     Debug.crash "impossible"
 
@@ -61,7 +71,7 @@ update msg model =
                             LoggedIn name (count + 1) ! []
 
                         Reset ->
-                            LoggedIn name 0 ! []
+                            LoggedIn name 0 ! [ toJS "reset called" ]
 
                         SetCount i ->
                             LoggedIn name i ! []
@@ -114,7 +124,10 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     case model of
         Anonymous _ _ ->
-            Time.every Time.second (SetTime >> AMessage)
+            Sub.batch
+                [ Time.every Time.second (SetTime >> AMessage)
+                , fromJS (FromJS >> AMessage)
+                ]
 
         _ ->
             Sub.none

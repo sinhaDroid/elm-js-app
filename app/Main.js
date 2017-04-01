@@ -8672,6 +8672,12 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Main$toJS = _elm_lang$core$Native_Platform.outgoingPort(
+	'toJS',
+	function (v) {
+		return v;
+	});
+var _user$project$Main$fromJS = _elm_lang$core$Native_Platform.incomingPort('fromJS', _elm_lang$core$Json_Decode$string);
 var _user$project$Main$LoggedIn = F2(
 	function (a, b) {
 		return {ctor: 'LoggedIn', _0: a, _1: b};
@@ -8680,6 +8686,9 @@ var _user$project$Main$Anonymous = F2(
 	function (a, b) {
 		return {ctor: 'Anonymous', _0: a, _1: b};
 	});
+var _user$project$Main$FromJS = function (a) {
+	return {ctor: 'FromJS', _0: a};
+};
 var _user$project$Main$NameChanged = function (a) {
 	return {ctor: 'NameChanged', _0: a};
 };
@@ -8718,6 +8727,7 @@ var _user$project$Main$update = F2(
 		if (_p1.ctor === 'AMessage') {
 			var _p2 = model;
 			if (_p2.ctor === 'Anonymous') {
+				var _p4 = _p2._1;
 				var _p3 = _p1._0;
 				switch (_p3.ctor) {
 					case 'Login':
@@ -8733,41 +8743,50 @@ var _user$project$Main$update = F2(
 								_p2._0,
 								_elm_lang$core$Maybe$Just(_p3._0)),
 							{ctor: '[]'});
+					case 'NameChanged':
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							A2(_user$project$Main$Anonymous, _p3._0, _p4),
+							{ctor: '[]'});
 					default:
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$Anonymous, _p3._0, _p2._1),
+							A2(_user$project$Main$Anonymous, _p3._0, _p4),
 							{ctor: '[]'});
 				}
 			} else {
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 41, column: 13},
-						end: {line: 54, column: 45}
+						start: {line: 48, column: 13},
+						end: {line: 64, column: 45}
 					},
 					_p2)('impossible');
 			}
 		} else {
-			var _p5 = model;
-			if (_p5.ctor === 'LoggedIn') {
-				var _p8 = _p5._0;
-				var _p6 = _p1._0;
-				switch (_p6.ctor) {
+			var _p6 = model;
+			if (_p6.ctor === 'LoggedIn') {
+				var _p9 = _p6._0;
+				var _p7 = _p1._0;
+				switch (_p7.ctor) {
 					case 'Increment':
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p8, _p5._1 + 1),
+							A2(_user$project$Main$LoggedIn, _p9, _p6._1 + 1),
 							{ctor: '[]'});
 					case 'Reset':
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p8, 0),
-							{ctor: '[]'});
+							A2(_user$project$Main$LoggedIn, _p9, 0),
+							{
+								ctor: '::',
+								_0: _user$project$Main$toJS('reset called'),
+								_1: {ctor: '[]'}
+							});
 					case 'SetCount':
 						return A2(
 							_elm_lang$core$Platform_Cmd_ops['!'],
-							A2(_user$project$Main$LoggedIn, _p8, _p6._0),
+							A2(_user$project$Main$LoggedIn, _p9, _p7._0),
 							{ctor: '[]'});
 					default:
 						return A2(
@@ -8777,9 +8796,9 @@ var _user$project$Main$update = F2(
 								ctor: '::',
 								_0: A2(
 									_elm_lang$core$Task$perform,
-									function (_p7) {
+									function (_p8) {
 										return _user$project$Main$AMessage(
-											_user$project$Main$SetTime(_p7));
+											_user$project$Main$SetTime(_p8));
 									},
 									_elm_lang$core$Time$now),
 								_1: {ctor: '[]'}
@@ -8789,18 +8808,18 @@ var _user$project$Main$update = F2(
 				return _elm_lang$core$Native_Utils.crashCase(
 					'Main',
 					{
-						start: {line: 57, column: 13},
-						end: {line: 73, column: 45}
+						start: {line: 67, column: 13},
+						end: {line: 83, column: 45}
 					},
-					_p5)('impossible');
+					_p6)('impossible');
 			}
 		}
 	});
 var _user$project$Main$view = function (model) {
-	var _p10 = model;
-	if (_p10.ctor === 'Anonymous') {
-		var _p14 = _p10._1;
-		var _p13 = _p10._0;
+	var _p11 = model;
+	if (_p11.ctor === 'Anonymous') {
+		var _p15 = _p11._1;
+		var _p14 = _p11._0;
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -8822,8 +8841,8 @@ var _user$project$Main$view = function (model) {
 						{
 							ctor: '::',
 							_0: function () {
-								var _p11 = _p14;
-								if (_p11.ctor === 'Just') {
+								var _p12 = _p15;
+								if (_p12.ctor === 'Just') {
 									return A2(
 										_elm_lang$html$Html$div,
 										{ctor: '[]'},
@@ -8833,7 +8852,7 @@ var _user$project$Main$view = function (model) {
 												A2(
 													_elm_lang$core$Basics_ops['++'],
 													'Current time: ',
-													_elm_lang$core$Basics$toString(_p14))),
+													_elm_lang$core$Basics$toString(_p15))),
 											_1: {ctor: '[]'}
 										});
 								} else {
@@ -8856,13 +8875,13 @@ var _user$project$Main$view = function (model) {
 										_0: _elm_lang$html$Html_Attributes$type_('text'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(_p13),
+											_0: _elm_lang$html$Html_Attributes$value(_p14),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onInput(
-													function (_p12) {
+													function (_p13) {
 														return _user$project$Main$AMessage(
-															_user$project$Main$NameChanged(_p12));
+															_user$project$Main$NameChanged(_p13));
 													}),
 												_1: {ctor: '[]'}
 											}
@@ -8883,7 +8902,7 @@ var _user$project$Main$view = function (model) {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Events$onClick(
 														_user$project$Main$AMessage(
-															_user$project$Main$Login(_p13))),
+															_user$project$Main$Login(_p14))),
 													_1: {ctor: '[]'}
 												}
 											}
@@ -8923,7 +8942,7 @@ var _user$project$Main$view = function (model) {
 								{
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
-										A2(_elm_lang$core$Basics_ops['++'], 'Hello ', _p10._0)),
+										A2(_elm_lang$core$Basics_ops['++'], 'Hello ', _p11._0)),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -8959,7 +8978,7 @@ var _user$project$Main$view = function (model) {
 									A2(
 										_elm_lang$core$Basics_ops['++'],
 										'Current count: ',
-										_elm_lang$core$Basics$toString(_p10._1))),
+										_elm_lang$core$Basics$toString(_p11._1))),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -9048,14 +9067,27 @@ var _user$project$Main$view = function (model) {
 	}
 };
 var _user$project$Main$subscriptions = function (model) {
-	var _p15 = model;
-	if (_p15.ctor === 'Anonymous') {
-		return A2(
-			_elm_lang$core$Time$every,
-			_elm_lang$core$Time$second,
-			function (_p16) {
-				return _user$project$Main$AMessage(
-					_user$project$Main$SetTime(_p16));
+	var _p16 = model;
+	if (_p16.ctor === 'Anonymous') {
+		return _elm_lang$core$Platform_Sub$batch(
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$core$Time$every,
+					_elm_lang$core$Time$second,
+					function (_p17) {
+						return _user$project$Main$AMessage(
+							_user$project$Main$SetTime(_p17));
+					}),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Main$fromJS(
+						function (_p18) {
+							return _user$project$Main$AMessage(
+								_user$project$Main$FromJS(_p18));
+						}),
+					_1: {ctor: '[]'}
+				}
 			});
 	} else {
 		return _elm_lang$core$Platform_Sub$none;
