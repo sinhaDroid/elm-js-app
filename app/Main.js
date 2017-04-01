@@ -8262,7 +8262,15 @@ var _elm_lang$html$Html_Events$Options = F2(
 
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		return model;
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Increment':
+				return model + 1;
+			case 'Reset':
+				return 0;
+			default:
+				return _p0._0;
+		}
 	});
 var _user$project$Main$model = 0;
 var _user$project$Main$SetCount = function (a) {

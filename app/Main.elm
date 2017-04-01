@@ -21,7 +21,15 @@ model =
 
 update : Msg -> Model -> Model
 update msg model =
-    model
+    case msg of
+        Increment ->
+            model + 1
+
+        Reset ->
+            0
+
+        SetCount i ->
+            i
 
 
 view : Model -> Html.Html Msg
